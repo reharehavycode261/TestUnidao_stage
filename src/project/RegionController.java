@@ -10,58 +10,48 @@ import mg.uniDao.exception.DaoException;
 import mg.uniDao.provider.GenericSqlProvider;
 
 import java.util.List;
+import java.util.Comparator;
+import java.util.stream.Collectors;
 
 public class RegionController {
     private final Database database;
 
     public RegionController() throws DaoException {
-        database = GenericSqlProvider.get();
+        database = GenericSqlProvider.get("database.json");
     }
 
-    @Url(url = "/regions/{id}")
     @RestAPI
-    public Region getOne(Integer id) throws DaoException {
-        Service service = database.connect();
+    @Url("/regions")
+    public List<Region> getRegions(String sortBy, boolean descending, int page, int size) throws DaoException {
+        List<Region> regions = fetchAllRegions();
 
-        Region region = new Region().getById(service, id);
-        service.endConnection();
+        if (sortBy != null && !sortBy.isEmpty()) {
+            regions = regions.stream()
+                .sorted((r1, r2) -> {
+                    int comparison;
+                    switch (sortBy) {
+                        case "name":
+                            comparison = r1.getName().compareToIgnoreCase(r2.getName());
+                            break;
+                        // Ajoutez d'autres cas pour trier par différentes colonnes
+                        default:
+                            comparison = 0;
+                    }
+                    return descending ? -comparison : comparison;
+                })
+                .collect(Collectors.toList());
+        }
 
-        return region;
+        // Pagination
+        int fromIndex = Math.max(0, page * size);
+        int toIndex = Math.min(fromIndex + size, regions.size());
+        return regions.subList(fromIndex, toIndex);
     }
 
-    @Url(url = "/regions")
-    @RestAPI
-    public List<Region> get() throws DaoException {
-        Service service = database.connect();
-
-        List<Region> regions = new Region().getList(service);
-        service.endConnection();
-
+    private List<Region> fetchAllRegions() throws DaoException {
+        Service service = database.connect("TEST", true);
+        List<Region> regions = service.findAll(new Region());
+        service.closeConnection();
         return regions;
-    }
-
-    @RestAPI
-    @Url(url = "/regions", method = Mapping.POST)
-    public void create(@JsonObject Region region) throws DaoException {
-        Service service = database.connect();
-        System.out.println("Creating region: " + region);
-        region.save(service);
-        service.endConnection();
-    }
-
-    @RestAPI
-    @Url(url = "/regions/{id}", method = Mapping.PUT)
-    public void update(@JsonObject Region region, Integer id) throws DaoException {
-        Service service = database.connect();
-        database.updateById(service, region, id);
-        service.endConnection();
-    }
-
-    @RestAPI
-    @Url(url = "/regions/{id}", method = Mapping.DELETE)
-    public void delete(Integer id) throws DaoException {
-        Service service = database.connect();
-        database.deleteById(service, Region.class, id);
-        service.endConnection();
     }
 }
