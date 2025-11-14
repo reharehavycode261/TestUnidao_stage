@@ -1,3 +1,73 @@
-$export $interface #ClassName# ${
-#attributes#
-$}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recherche Avancée</title>
+    <style>
+        /* Ajoutez ici vos styles pour l'interface utilisateur */
+        .search-container {
+            display: flex;
+            flex-direction: column;
+            width: 50%;
+            margin: auto;
+        }
+        .search-input {
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .filter-options {
+            margin-bottom: 15px;
+        }
+        .saved-queries {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <input type="text" class="search-input" id="search" placeholder="Type to search..." onkeyup="autocomplete(this.value)">
+        
+        <div class="filter-options">
+            <label for="filter">Filtrer par:</label>
+            <select id="filter">
+                <option value="all">Tous</option>
+                <option value="category1">Catégorie 1</option>
+                <option value="category2">Catégorie 2</option>
+            </select>
+        </div>
+
+        <button onclick="saveQuery()">Sauvegarder la requête</button>
+        
+        <div class="autocomplete-suggestions" id="suggestions"></div>
+        
+        <div class="saved-queries" id="saved-queries">
+            <h3>Requêtes sauvegardées:</h3>
+            <ul id="query-list">
+                <!-- Liste des requêtes sauvegardées -->
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function autocomplete(searchTerm) {
+            // Simuler l'auto-complétion (cette fonction devra être remplacée par un appel AJAX)
+            console.log("Suggestions pour: ", searchTerm);
+        }
+
+        function saveQuery() {
+            // Logique pour sauvegarder la requête
+            const query = document.getElementById('search').value;
+            const filter = document.getElementById('filter').value;
+            const queryList = document.getElementById('query-list');
+            
+            var li = document.createElement("li");
+            li.appendChild(document.createTextNode(`Requête: ${query}, Filtre: ${filter}`));
+            queryList.appendChild(li);
+            
+            console.log("Requête sauvegardée: ", query, filter);
+        }
+    </script>
+</body>
+</html>
