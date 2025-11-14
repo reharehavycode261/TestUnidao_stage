@@ -1,18 +1,17 @@
-import mg.uniDao.core.Database;
-import mg.uniDao.core.Service;
-import mg.uniDao.exception.DaoException;
-import mg.uniDao.provider.GenericSqlProvider;
-import project.Region;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 public class Main {
-    public static void main(String[] args) throws DaoException {
-        Database postgresSql = GenericSqlProvider.get("database.json");
+    public static void main(String[] args) {
+        // Choisir la langue et le pays
+        Locale locale = new Locale("fr", "FR");
 
-        Service service = postgresSql.connect("TEST", true);
+        // Charger la ressource
+        ResourceBundle messages = ResourceBundle.getBundle("MessagesBundle", locale);
 
-        Region region = new Region();
-        postgresSql.updateById(service, region, 48);
+        // Utiliser les ressources
+        System.out.println(messages.getString("greetings"));
 
-        service.endConnection();
+        // Code existant...
     }
 }
