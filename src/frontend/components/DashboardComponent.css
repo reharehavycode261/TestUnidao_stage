@@ -1,0 +1,11 @@
+.container {
+    max-width: 90%;
+}
+
+.card-header {
+    font-weight: bold;
+}
+
+.table {
+    margin-top: 20px;
+}
