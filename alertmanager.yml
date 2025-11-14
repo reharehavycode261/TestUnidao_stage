@@ -1,0 +1,18 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  receiver: 'team-email'
+
+receivers:
+  - name: 'team-email'
+    email_configs:
+      - to: 'team@company.com'
+        from: 'alert@company.com'
+        smarthost: 'smtp.company.com:587'
+        auth_username: 'alert@company.com'
+        auth_identity: 'alert@company.com'
+        auth_password: 'password'
+
+templates:
+  - '/etc/alertmanager/template/*.tmpl'

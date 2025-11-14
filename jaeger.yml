@@ -1,0 +1,19 @@
+collector:
+  zipkin:
+    http-port: 9411
+
+query:
+  base-path: /
+
+storage:
+  type: memory
+
+sampling:
+  strategies: |
+    {
+      "default_strategy": {
+        "type": "probabilistic",
+        "param": 0.1
+      },
+      "per_operation_strategies": []
+    }
