@@ -13,6 +13,9 @@ public class Main {
         Region region = new Region();
         postgresSql.updateById(service, region, 48);
 
-        service.endConnection();
+        // Ajout de l'instruction de test
+        System.out.println("test");
+
+        service.close();
     }
 }
