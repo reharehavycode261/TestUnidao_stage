@@ -1,0 +1,13 @@
+{
+  "name": "mon-projet",
+  "version": "1.0.0",
+  "description": "Projet avec internationalisation et mode sombre",
+  "main": "index.js",
+  "scripts": {
+    "start": "node main.js"
+  },
+  "dependencies": {
+    "i18next": "^21.8.13",   // Utilisé si le projet inclut un frontend JS pour l'I18N
+    // Aucune dépendance nécessaire pour le mode sombre si nous utilisons juste du CSS
+  }
+}
