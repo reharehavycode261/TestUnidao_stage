@@ -8,60 +8,45 @@ import mg.uniDao.core.Database;
 import mg.uniDao.core.Service;
 import mg.uniDao.exception.DaoException;
 import mg.uniDao.provider.GenericSqlProvider;
+import com.google.gson.Gson;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class RegionController {
     private final Database database;
+    private List<String> savedQueries;
 
     public RegionController() throws DaoException {
-        database = GenericSqlProvider.get();
+        this.database = GenericSqlProvider.get("database.json");
+        this.savedQueries = new ArrayList<>();
     }
 
-    @Url(url = "/regions/{id}")
+    @Url("/searchRegions")
     @RestAPI
-    public Region getOne(Integer id) throws DaoException {
-        Service service = database.connect();
+    public List<Region> searchRegions(@JsonObject String query, @JsonObject String filter) throws DaoException {
+        System.out.println("Recherche des régions avec le terme: " + query + " et filter: " + filter);
 
-        Region region = new Region().getById(service, id);
-        service.endConnection();
-
-        return region;
-    }
-
-    @Url(url = "/regions")
-    @RestAPI
-    public List<Region> get() throws DaoException {
-        Service service = database.connect();
-
-        List<Region> regions = new Region().getList(service);
-        service.endConnection();
-
+        List<Region> regions = new ArrayList<>();
+        // Ajouter ici la logique de recherche des régions
         return regions;
     }
 
+    @Url("/autocomplete")
     @RestAPI
-    @Url(url = "/regions", method = Mapping.POST)
-    public void create(@JsonObject Region region) throws DaoException {
-        Service service = database.connect();
-        System.out.println("Creating region: " + region);
-        region.save(service);
-        service.endConnection();
+    public List<String> autocomplete(@JsonObject String term) {
+        List<String> suggestions = new ArrayList<>();
+        // Simuler l'auto-complétion
+        suggestions.add(term + "1");
+        suggestions.add(term + "2");
+        return suggestions;
     }
 
+    @Url("/saveQuery")
     @RestAPI
-    @Url(url = "/regions/{id}", method = Mapping.PUT)
-    public void update(@JsonObject Region region, Integer id) throws DaoException {
-        Service service = database.connect();
-        database.updateById(service, region, id);
-        service.endConnection();
-    }
-
-    @RestAPI
-    @Url(url = "/regions/{id}", method = Mapping.DELETE)
-    public void delete(Integer id) throws DaoException {
-        Service service = database.connect();
-        database.deleteById(service, Region.class, id);
-        service.endConnection();
+    public String saveQuery(@JsonObject String query, @JsonObject String filter) {
+        String savedQuery = "Requête: " + query + ", Filtre: " + filter;
+        savedQueries.add(savedQuery);
+        return new Gson().toJson(savedQueries);
     }
 }
