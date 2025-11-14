@@ -1,18 +1,22 @@
-import mg.uniDao.core.Database;
-import mg.uniDao.core.Service;
-import mg.uniDao.exception.DaoException;
-import mg.uniDao.provider.GenericSqlProvider;
-import project.Region;
+import org.ff4j.FF4j;
+import org.ff4j.core.Feature;
 
 public class Main {
-    public static void main(String[] args) throws DaoException {
-        Database postgresSql = GenericSqlProvider.get("database.json");
+    public static void main(String[] args) {
+        // Initialisation de FF4j avec des feature flags
+        FF4j ff4j = new FF4j();
+        ff4j.createFeature(new Feature("newSearchFeature"));
+        ff4j.createFeature(new Feature("notificationsFeature"));
+        
+        // Verification et utilisation des feature flags
+        if (ff4j.check("newSearchFeature")) {
+            System.out.println("La fonctionnalité de recherche avancée est activée!");
+            // Appel du code pour la fonctionnalité de recherche avancée
+        }
 
-        Service service = postgresSql.connect("TEST", true);
-
-        Region region = new Region();
-        postgresSql.updateById(service, region, 48);
-
-        service.endConnection();
+        if (ff4j.check("notificationsFeature")) {
+            System.out.println("La fonctionnalité de notifications multi-canaux est activée!");
+            // Appel du code pour la fonctionnalité de notifications
+        }
     }
 }
