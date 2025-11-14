@@ -1,67 +1,29 @@
 package project;
 
-import etu2024.framework.annotation.JsonObject;
 import etu2024.framework.annotation.RestAPI;
 import etu2024.framework.annotation.Url;
-import etu2024.framework.utility.Mapping;
 import mg.uniDao.core.Database;
-import mg.uniDao.core.Service;
 import mg.uniDao.exception.DaoException;
 import mg.uniDao.provider.GenericSqlProvider;
-
-import java.util.List;
+import project.notification.NotificationService;
 
 public class RegionController {
     private final Database database;
+    private final NotificationService notificationService;
 
     public RegionController() throws DaoException {
-        database = GenericSqlProvider.get();
-    }
-
-    @Url(url = "/regions/{id}")
-    @RestAPI
-    public Region getOne(Integer id) throws DaoException {
-        Service service = database.connect();
-
-        Region region = new Region().getById(service, id);
-        service.endConnection();
-
-        return region;
-    }
-
-    @Url(url = "/regions")
-    @RestAPI
-    public List<Region> get() throws DaoException {
-        Service service = database.connect();
-
-        List<Region> regions = new Region().getList(service);
-        service.endConnection();
-
-        return regions;
+        this.database = GenericSqlProvider.get("database.json");
+        this.notificationService = new NotificationService();
     }
 
     @RestAPI
-    @Url(url = "/regions", method = Mapping.POST)
-    public void create(@JsonObject Region region) throws DaoException {
-        Service service = database.connect();
-        System.out.println("Creating region: " + region);
-        region.save(service);
-        service.endConnection();
-    }
-
-    @RestAPI
-    @Url(url = "/regions/{id}", method = Mapping.PUT)
-    public void update(@JsonObject Region region, Integer id) throws DaoException {
-        Service service = database.connect();
-        database.updateById(service, region, id);
-        service.endConnection();
-    }
-
-    @RestAPI
-    @Url(url = "/regions/{id}", method = Mapping.DELETE)
-    public void delete(Integer id) throws DaoException {
-        Service service = database.connect();
-        database.deleteById(service, Region.class, id);
-        service.endConnection();
+    @Url("/region/setNotificationPreferences")
+    public void setNotificationPreferences(int regionId, List<String> channels) throws DaoException {
+        // Logic to update notification preferences for a region
+        Region region = database.findById(Region.class, regionId);
+        region.setNotificationChannels(channels);
+        database.update(region);
+        
+        notificationService.updateChannels(region);
     }
 }
