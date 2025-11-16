@@ -1,0 +1,24 @@
+name: Security Scans
+
+on:
+  - push
+
+jobs:
+  zap_scan:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Start ZAP
+      run: docker run --network="host" -d -u zap -p 8080:8080 owasp/zap2docker-stable zap.sh -daemon -host 0.0.0.0 -port 8080 -config api.disablekey=true
+
+    - name: ZAP Baseline Scan
+      run: docker run --network="host" -t owasp/zap2docker-stable zap-baseline.py -t http://0.0.0.0:8080 -r zap_report.html
+
+    - name: Upload ZAP Report
+      uses: actions/upload-artifact@v2
+      with:
+        name: zap-report
+        path: ./zap_report.html
