@@ -1,67 +1,39 @@
 package project;
 
-import etu2024.framework.annotation.JsonObject;
-import etu2024.framework.annotation.RestAPI;
-import etu2024.framework.annotation.Url;
-import etu2024.framework.utility.Mapping;
-import mg.uniDao.core.Database;
 import mg.uniDao.core.Service;
 import mg.uniDao.exception.DaoException;
 import mg.uniDao.provider.GenericSqlProvider;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@RestController
+@RequestMapping("/regions")
 public class RegionController {
-    private final Database database;
+
+    private final Service service;
 
     public RegionController() throws DaoException {
-        database = GenericSqlProvider.get();
+        this.service = GenericSqlProvider.get("database.json").connect("TEST", true);
     }
 
-    @Url(url = "/regions/{id}")
-    @RestAPI
-    public Region getOne(Integer id) throws DaoException {
-        Service service = database.connect();
-
-        Region region = new Region().getById(service, id);
-        service.endConnection();
-
-        return region;
+    @GetMapping
+    public List<Region> getRegions() throws DaoException {
+        // Code existant pour obtenir la liste des régions
+        return service.findAll(Region.class);
     }
 
-    @Url(url = "/regions")
-    @RestAPI
-    public List<Region> get() throws DaoException {
-        Service service = database.connect();
-
-        List<Region> regions = new Region().getList(service);
-        service.endConnection();
-
-        return regions;
-    }
-
-    @RestAPI
-    @Url(url = "/regions", method = Mapping.POST)
-    public void create(@JsonObject Region region) throws DaoException {
-        Service service = database.connect();
-        System.out.println("Creating region: " + region);
-        region.save(service);
-        service.endConnection();
-    }
-
-    @RestAPI
-    @Url(url = "/regions/{id}", method = Mapping.PUT)
-    public void update(@JsonObject Region region, Integer id) throws DaoException {
-        Service service = database.connect();
-        database.updateById(service, region, id);
-        service.endConnection();
-    }
-
-    @RestAPI
-    @Url(url = "/regions/{id}", method = Mapping.DELETE)
-    public void delete(Integer id) throws DaoException {
-        Service service = database.connect();
-        database.deleteById(service, Region.class, id);
-        service.endConnection();
+    @PostMapping("/reorder")
+    public void reorderRegions(@RequestBody List<Integer> newOrder) throws DaoException {
+        // Code pour mettre à jour l'ordre des régions selon newOrder
+        // Assuming the list is IDs of the regions in the new order
+        for (int index = 0; index < newOrder.size(); index++) {
+            int regionId = newOrder.get(index);
+            Region region = service.findById(Region.class, regionId);
+            if (region != null) {
+                region.setOrder(index);
+                service.update(region);
+            }
+        }
     }
 }

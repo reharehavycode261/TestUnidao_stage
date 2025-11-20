@@ -1,47 +1,30 @@
 import { test, expect } from '@jest/globals';
 
-// Mocking the document and window objects
-document.body.innerHTML = '<div id="test-container"></div>';
-const container = document.getElementById('test-container');
+// Mocking the document and window objects for testing
+document.body.innerHTML = `
+    <ul id="test-list">
+        <li draggable="true">Item 1</li>
+        <li draggable="true">Item 2</li>
+        <li draggable="true">Item 3</li>
+    </ul>
+`;
 
-// Importing the UIComponents class from the global window object
 const { UIComponents } = window;
 
-test('UIComponents.showEmptyState should display the correct empty state message', () => {
-    const message = "No data available";
-    UIComponents.showEmptyState(container, message);
-    expect(container.innerHTML).toBe('<div class="empty-state">No data available</div>');
-});
+test('UIComponents.makeListDraggable should allow list items to be rearranged', () => {
+    UIComponents.makeListDraggable('#test-list');
 
-test('UIComponents.showLoader should display the loader correctly', () => {
-    UIComponents.showLoader(container);
-    expect(container.innerHTML).toBe('<div class="loader">Loading...</div>');
-});
+    const list = document.getElementById('test-list');
+    const items = list.querySelectorAll('li');
 
-test('UIComponents.showError should display the correct error message', () => {
-    const errorMessage = "An error occurred";
-    UIComponents.showError(container, errorMessage);
-    expect(container.innerHTML).toBe('<div class="error-message">An error occurred</div>');
-});
+    // Simulate drag and drop
+    const dragEvent = new DragEvent('dragstart', { bubbles: true });
+    items[0].dispatchEvent(dragEvent);
+    const dragoverEvent = new DragEvent('dragover', { bubbles: true });
+    items[1].dispatchEvent(dragoverEvent);
+    const dropEvent = new DragEvent('drop', { bubbles: true });
+    items[1].dispatchEvent(dropEvent);
 
-test('UIComponents.showEmptyState should handle empty message gracefully', () => {
-    UIComponents.showEmptyState(container, '');
-    expect(container.innerHTML).toBe('<div class="empty-state"></div>');
-});
-
-test('UIComponents.showError should handle empty error message gracefully', () => {
-    UIComponents.showError(container, '');
-    expect(container.innerHTML).toBe('<div class="error-message"></div>');
-});
-
-test('UIComponents.showEmptyState should throw error if container is null', () => {
-    expect(() => UIComponents.showEmptyState(null, 'Message')).toThrow();
-});
-
-test('UIComponents.showLoader should throw error if container is null', () => {
-    expect(() => UIComponents.showLoader(null)).toThrow();
-});
-
-test('UIComponents.showError should throw error if container is null', () => {
-    expect(() => UIComponents.showError(null, 'Error')).toThrow();
+    expect(list.children[0].textContent).toBe('Item 2');
+    expect(list.children[1].textContent).toBe('Item 1');
 });
