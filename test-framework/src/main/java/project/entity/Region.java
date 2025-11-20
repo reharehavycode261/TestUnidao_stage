@@ -4,45 +4,27 @@ import mg.uniDao.annotation.Field;
 import mg.uniDao.annotation.AutoSequence;
 import mg.uniDao.core.sql.GenericSqlDao;
 import mg.uniDao.annotation.Collection;
+import com.google.gson.Gson;
+import java.util.UUID;
+import java.util.List;
 
 @Collection
 public class Region extends GenericSqlDao {
     @Field(name = "region_id", isPrimaryKey = true)
-    @AutoSequence(name = "region_id")
+    @AutoSequence(name = "region_id_seq")
     private Integer regionId;
     
-    @Field(name = "region_description")
-    private String regionDescription;
+    @Field(name = "region_name")
+    private String regionName;
     
-    @Field(name = "is_deleted")
-    private boolean isDeleted = false; // Ajout de la suppression logique
+    @Field(name = "metadata", typeHandler = "json")
+    private Object metadata; // JSON data
+    
+    @Field(name = "uuid")
+    private UUID uuid; // UUID data
+    
+    @Field(name = "sub_regions", typeHandler = "array")
+    private List<String> subRegions; // Array of strings
 
-    public Integer getRegionId() {
-        return regionId;
-    }
-    
-    public void setRegionId(Integer regionId) {
-        this.regionId = regionId;
-    }
-    
-    public String getRegionDescription() {
-        return regionDescription;
-    }
-    
-    public void setRegionDescription(String regionDescription) {
-        this.regionDescription = regionDescription;
-    }
-    
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-    
-    public void setDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-    // Logique pour marquer comme supprimé
-    public void softDelete() {
-        this.isDeleted = true;
-    }
+    // Getters and setters go here
 }
