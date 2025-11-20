@@ -1,48 +1,49 @@
 package project.entity;
 
-import mg.uniDao.annotation.Field;
-import mg.uniDao.annotation.AutoSequence;
-import mg.uniDao.core.sql.GenericSqlDao;
-import mg.uniDao.annotation.Collection;
+/**
+ * Représente une entité de territoire dans le système.
+ * Gère les informations spécifiques au territoire.
+ */
+public class Territorie {
 
-@Collection
-public class Territorie extends GenericSqlDao {
-    @Field(name = "territorie_id", isPrimaryKey = true)
-    @AutoSequence(name = "territorie_id")
-    private Integer territorieId;
-    
-    @Field(name = "territorie_description")
-    private String territorieDescription;
-    
-    @Field(name = "is_deleted")
-    private boolean isDeleted = false; // Ajout de la suppression logique
+    private String territorieId;
+    private String description;
 
-    public Integer getTerritorieId() {
+    /**
+     * Récupère l'identifiant du territoire.
+     * 
+     * @return L'identifiant du territoire
+     */
+    public String getTerritorieId() {
         return territorieId;
     }
-    
-    public void setTerritorieId(Integer territorieId) {
+
+    /**
+     * Définit l'identifiant du territoire.
+     * 
+     * @param territorieId L'identifiant du territoire
+     */
+    public void setTerritorieId(String territorieId) {
         this.territorieId = territorieId;
     }
-    
-    public String getTerritorieDescription() {
-        return territorieDescription;
-    }
-    
-    public void setTerritorieDescription(String territorieDescription) {
-        this.territorieDescription = territorieDescription;
-    }
-    
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-    
-    public void setDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
+
+    /**
+     * Récupère la description du territoire.
+     * 
+     * @return La description du territoire
+     */
+    public String getDescription() {
+        return description;
     }
 
-    // Logique pour marquer comme supprimé
-    public void softDelete() {
-        this.isDeleted = true;
+    /**
+     * Définit la description du territoire.
+     * 
+     * @param description La description du territoire
+     */
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+    // Des méthodes supplémentaires avec documentation peuvent être ajoutées ici
 }
