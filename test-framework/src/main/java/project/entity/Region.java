@@ -1,34 +1,43 @@
 package project.entity;
 
 import mg.uniDao.annotation.Field;
-import mg.uniDao.annotation.AutoSequence;
-import mg.uniDao.core.sql.GenericSqlDao;
-import mg.uniDao.annotation.Collection;
 
+public class Region {
+    @Field(name = "region_id", isPrimaryKey = true)
+    private String regionId;
 
-@Collection
-public class Region extends GenericSqlDao {
-	@Field(name = "region_id", isPrimaryKey = true)
-	@AutoSequence(name = "region")
-	private Integer regionId;
-	@Field(name = "region_description")
-	private String regionDescription;
+    @Field(name = "region_description")
+    private String regionDescription;
 
+    public Region() {
+    }
 
+    public Region(String regionId, String regionDescription) {
+        this.regionId = regionId;
+        this.regionDescription = regionDescription;
+    }
 
-	public Integer getRegionId() {
-		return regionId;
-	}
-	public void setRegionId(Integer regionId) {
-		this.regionId = regionId;
-	}
+    public String getRegionId() {
+        return regionId;
+    }
 
-	public String getRegionDescription() {
-		return regionDescription;
-	}
-	public void setRegionDescription(String regionDescription) {
-		this.regionDescription = regionDescription;
-	}
+    public void setRegionId(String regionId) {
+        this.regionId = regionId;
+    }
 
+    public String getRegionDescription() {
+        return regionDescription;
+    }
 
+    public void setRegionDescription(String regionDescription) {
+        this.regionDescription = regionDescription;
+    }
+
+    @Override
+    public String toString() {
+        return "Region{" +
+                "regionId='" + regionId + '\'' +
+                ", regionDescription='" + regionDescription + '\'' +
+                '}';
+    }
 }

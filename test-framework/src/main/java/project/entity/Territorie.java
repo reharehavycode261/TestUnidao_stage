@@ -1,43 +1,43 @@
 package project.entity;
 
 import mg.uniDao.annotation.Field;
-import mg.uniDao.annotation.AutoSequence;
-import mg.uniDao.core.sql.GenericSqlDao;
-import mg.uniDao.annotation.Collection;
 
+public class Territorie {
+    @Field(name = "territorie_id", isPrimaryKey = true)
+    private String territorieId;
 
-@Collection
-public class Territorie extends GenericSqlDao {
-	@Field(name = "territory_id", isPrimaryKey = true)
-	@AutoSequence(name = "territorie")
-	private Integer territoryId;
-	@Field(name = "territory_description")
-	private String territoryDescription;
-	@Field(name = "region_id")
-	private Integer regionId;
+    @Field(name = "territorie_description")
+    private String territorieDescription;
 
+    public Territorie() {
+    }
 
+    public Territorie(String territorieId, String territorieDescription) {
+        this.territorieId = territorieId;
+        this.territorieDescription = territorieDescription;
+    }
 
-	public Integer getTerritoryId() {
-		return territoryId;
-	}
-	public void setTerritoryId(Integer territoryId) {
-		this.territoryId = territoryId;
-	}
+    public String getTerritorieId() {
+        return territorieId;
+    }
 
-	public String getTerritoryDescription() {
-		return territoryDescription;
-	}
-	public void setTerritoryDescription(String territoryDescription) {
-		this.territoryDescription = territoryDescription;
-	}
+    public void setTerritorieId(String territorieId) {
+        this.territorieId = territorieId;
+    }
 
-	public Integer getRegionId() {
-		return regionId;
-	}
-	public void setRegionId(Integer regionId) {
-		this.regionId = regionId;
-	}
+    public String getTerritorieDescription() {
+        return territorieDescription;
+    }
 
+    public void setTerritorieDescription(String territorieDescription) {
+        this.territorieDescription = territorieDescription;
+    }
 
+    @Override
+    public String toString() {
+        return "Territorie{" +
+                "territorieId='" + territorieId + '\'' +
+                ", territorieDescription='" + territorieDescription + '\'' +
+                '}';
+    }
 }
