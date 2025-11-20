@@ -1,0 +1,33 @@
+.empty-state {
+    background: #f9f9f9;
+    padding: 20px;
+    margin: 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+    margin: 20px auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.error-message {
+    color: #d9534f;
+    background: #f2dede;
+    padding: 15px;
+    margin: 10px;
+    text-align: center;
+    border: 1px solid #ebccd1;
+    border-radius: 5px;
+}
