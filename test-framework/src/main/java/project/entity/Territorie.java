@@ -1,48 +1,41 @@
 package project.entity;
 
-import mg.uniDao.annotation.Field;
-import mg.uniDao.annotation.AutoSequence;
-import mg.uniDao.core.sql.GenericSqlDao;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import mg.uniDao.annotation.Collection;
+import mg.uniDao.annotation.Field;
 
 @Collection
-public class Territorie extends GenericSqlDao {
+public class Territorie {
+    
     @Field(name = "territorie_id", isPrimaryKey = true)
-    @AutoSequence(name = "territorie_id")
-    private Integer territorieId;
-    
-    @Field(name = "territorie_description")
-    private String territorieDescription;
-    
-    @Field(name = "is_deleted")
-    private boolean isDeleted = false; // Ajout de la suppression logique
+    private String territorieId;
 
-    public Integer getTerritorieId() {
+    @NotEmpty(message = "Name cannot be empty")
+    @Size(max = 255, message = "Name must be less than 255 characters")
+    @Field(name = "territorie_name")
+    private String territorieName;
+
+    public Territorie() {}
+
+    public Territorie(String territorieId, String territorieName) {
+        this.territorieId = territorieId;
+        this.territorieName = territorieName;
+    }
+
+    public String getTerritorieId() {
         return territorieId;
     }
-    
-    public void setTerritorieId(Integer territorieId) {
+
+    public void setTerritorieId(String territorieId) {
         this.territorieId = territorieId;
     }
-    
-    public String getTerritorieDescription() {
-        return territorieDescription;
-    }
-    
-    public void setTerritorieDescription(String territorieDescription) {
-        this.territorieDescription = territorieDescription;
-    }
-    
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-    
-    public void setDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
+
+    public String getTerritorieName() {
+        return territorieName;
     }
 
-    // Logique pour marquer comme supprimé
-    public void softDelete() {
-        this.isDeleted = true;
+    public void setTerritorieName(String territorieName) {
+        this.territorieName = territorieName;
     }
 }

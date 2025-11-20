@@ -1,7 +1,11 @@
 package project.controller;
 
 import project.entity.Territorie;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,16 +16,18 @@ public class TerritorieRestController {
 
     @GetMapping
     public List<Territorie> getAllTerritories() {
-        // Filtrer pour ne pas renvoyer les territoires "supprimés"
-        return territorieRepository.findAll().stream().filter(territorie -> !territorie.isDeleted()).collect(Collectors.toList());
+        return territorieRepository.findAll()
+                .stream()
+                .filter(territorie -> !territorie.isDeleted())
+                .collect(Collectors.toList());
     }
 
-    @PostMapping("/delete/{id}")
-    public void deleteTerritorie(@PathVariable Integer id) {
-        Territorie territorie = territorieRepository.findById(id);
-        if (territorie != null) {
-            territorie.softDelete();
-            territorieRepository.save(territorie);
+    @PostMapping
+    public Territorie createTerritorie(@Valid @RequestBody Territorie territorie) {
+        try {
+            return territorieRepository.save(territorie);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid data", e);
         }
     }
 }

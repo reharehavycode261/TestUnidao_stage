@@ -1,7 +1,11 @@
 package project.controller;
 
 import project.entity.Region;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,16 +16,18 @@ public class RegionRestController {
 
     @GetMapping
     public List<Region> getAllRegions() {
-        // Filtrer pour ne pas renvoyer les régions "supprimées"
-        return regionRepository.findAll().stream().filter(region -> !region.isDeleted()).collect(Collectors.toList());
+        return regionRepository.findAll()
+                .stream()
+                .filter(region -> !region.isDeleted())
+                .collect(Collectors.toList());
     }
 
-    @PostMapping("/delete/{id}")
-    public void deleteRegion(@PathVariable Integer id) {
-        Region region = regionRepository.findById(id);
-        if (region != null) {
-            region.softDelete();
-            regionRepository.save(region);
+    @PostMapping
+    public Region createRegion(@Valid @RequestBody Region region) {
+        try {
+            return regionRepository.save(region);
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid data", e);
         }
     }
 }
