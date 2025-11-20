@@ -1,48 +1,43 @@
 package project.entity;
 
 import mg.uniDao.annotation.Field;
-import mg.uniDao.annotation.AutoSequence;
-import mg.uniDao.core.sql.GenericSqlDao;
-import mg.uniDao.annotation.Collection;
 
-@Collection
-public class Territorie extends GenericSqlDao {
+public class Territorie {
     @Field(name = "territorie_id", isPrimaryKey = true)
-    @AutoSequence(name = "territorie_id")
-    private Integer territorieId;
-    
+    private String territorieId;
+
     @Field(name = "territorie_description")
     private String territorieDescription;
-    
-    @Field(name = "is_deleted")
-    private boolean isDeleted = false; // Ajout de la suppression logique
 
-    public Integer getTerritorieId() {
+    public Territorie() {
+    }
+
+    public Territorie(String territorieId, String territorieDescription) {
+        this.territorieId = territorieId;
+        this.territorieDescription = territorieDescription;
+    }
+
+    public String getTerritorieId() {
         return territorieId;
     }
-    
-    public void setTerritorieId(Integer territorieId) {
+
+    public void setTerritorieId(String territorieId) {
         this.territorieId = territorieId;
     }
-    
+
     public String getTerritorieDescription() {
         return territorieDescription;
     }
-    
+
     public void setTerritorieDescription(String territorieDescription) {
         this.territorieDescription = territorieDescription;
     }
-    
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-    
-    public void setDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
 
-    // Logique pour marquer comme supprimé
-    public void softDelete() {
-        this.isDeleted = true;
+    @Override
+    public String toString() {
+        return "Territorie{" +
+                "territorieId='" + territorieId + '\'' +
+                ", territorieDescription='" + territorieDescription + '\'' +
+                '}';
     }
 }

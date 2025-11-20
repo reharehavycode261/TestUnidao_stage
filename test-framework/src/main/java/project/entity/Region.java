@@ -1,48 +1,43 @@
 package project.entity;
 
 import mg.uniDao.annotation.Field;
-import mg.uniDao.annotation.AutoSequence;
-import mg.uniDao.core.sql.GenericSqlDao;
-import mg.uniDao.annotation.Collection;
 
-@Collection
-public class Region extends GenericSqlDao {
+public class Region {
     @Field(name = "region_id", isPrimaryKey = true)
-    @AutoSequence(name = "region_id")
-    private Integer regionId;
-    
+    private String regionId;
+
     @Field(name = "region_description")
     private String regionDescription;
-    
-    @Field(name = "is_deleted")
-    private boolean isDeleted = false; // Ajout de la suppression logique
 
-    public Integer getRegionId() {
+    public Region() {
+    }
+
+    public Region(String regionId, String regionDescription) {
+        this.regionId = regionId;
+        this.regionDescription = regionDescription;
+    }
+
+    public String getRegionId() {
         return regionId;
     }
-    
-    public void setRegionId(Integer regionId) {
+
+    public void setRegionId(String regionId) {
         this.regionId = regionId;
     }
-    
+
     public String getRegionDescription() {
         return regionDescription;
     }
-    
+
     public void setRegionDescription(String regionDescription) {
         this.regionDescription = regionDescription;
     }
-    
-    public boolean isDeleted() {
-        return isDeleted;
-    }
-    
-    public void setDeleted(boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
 
-    // Logique pour marquer comme supprimé
-    public void softDelete() {
-        this.isDeleted = true;
+    @Override
+    public String toString() {
+        return "Region{" +
+                "regionId='" + regionId + '\'' +
+                ", regionDescription='" + regionDescription + '\'' +
+                '}';
     }
 }
