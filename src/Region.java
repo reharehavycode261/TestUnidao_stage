@@ -1,21 +1,43 @@
-import mg.uniDao.annotation.AutoSequence;
-import mg.uniDao.annotation.Collection;
-import mg.uniDao.annotation.Field;
-import mg.uniDao.core.sql.GenericSqlDao;
+package project;
 
-@Collection
-public class Region extends GenericSqlDao {
-    @AutoSequence(name = "student", prefix = "ETU", length = 8)
-    @Field(name = "region_id", isPrimaryKey = true)
-    private String regionId;
+// TODO: Vérifier les dépendances inutilisées et optimiser les imports
 
-    @Field(name = "region_description")
-    private String regionDescription;
+import java.util.List;
 
-    public Region() {
+public class Region {
+    private Integer id;
+    private String name;
+    
+    // TODO: Implémentez des validations pour les champs de la région
+
+    public Region(Integer id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
-    public Region(String regionDescription) {
-        this.regionDescription = regionDescription;
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    // TODO: Ajouter la gestion d'erreurs si l'ID est null
+
+    @Override
+    public String toString() {
+        return "Region{" +
+               "id=" + id +
+               ", name='" + name + '\'' +
+               '}';
     }
 }
