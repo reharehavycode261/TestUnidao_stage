@@ -1,21 +1,41 @@
-import mg.uniDao.annotation.AutoSequence;
-import mg.uniDao.annotation.Collection;
-import mg.uniDao.annotation.Field;
-import mg.uniDao.core.sql.GenericSqlDao;
+package project;
 
-@Collection
-public class Region extends GenericSqlDao {
-    @AutoSequence(name = "student", prefix = "ETU", length = 8)
-    @Field(name = "region_id", isPrimaryKey = true)
-    private String regionId;
+/**
+ * Classe représentant une région avec son identifiant et son nom.
+ */
+public class Region {
+    private int id;
+    private String name;
 
-    @Field(name = "region_description")
-    private String regionDescription;
+    // Constructeur par défaut
+    public Region() {}
 
-    public Region() {
+    // Constructeur avec paramètres
+    public Region(int id, String name) {
+        this.id = id;
+        this.name = name;
     }
 
-    public Region(String regionDescription) {
-        this.regionDescription = regionDescription;
+    // Getters et setters pour id et name
+    public int getId() {
+        return id;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * Exemple d'utilisation :
+     * Region region = new Region(1, "Provence-Alpes-Côte d'Azur");
+     * System.out.println(region.getName()); // Affiche "Provence-Alpes-Côte d'Azur"
+     */
 }
