@@ -1,0 +1,29 @@
+# IntelliJ IDEA
+*.iml
+.idea/
+# MacOS
+.DS_Store
+# Windows
+Thumbs.db
+# Logs
+*.log
+# Compiled class files
+*.class
+# Build directories
+/build/
+/out/
+# Maven and Gradle directories
+/.mvn/
+/.gradle/
+# Java artefacts
+*.jar
+*.war
+*.ear
+# Ignoring other common items
+*.swp
+*.swo
+*.bak
+# Exclusion personal and environment settings
+.env
+# Others
+/tmp/
