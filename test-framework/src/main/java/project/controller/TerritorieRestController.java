@@ -13,15 +13,20 @@ public class TerritorieRestController {
     @GetMapping
     public List<Territorie> getAllTerritories() {
         // Filtrer pour ne pas renvoyer les territoires "supprimés"
-        return territorieRepository.findAll().stream().filter(territorie -> !territorie.isDeleted()).collect(Collectors.toList());
+        
+        // TODO: Vérifier pourquoi certains territoires ne sont pas correctement filtrés
+        return territorieRepository.findAll().stream()
+                                   .filter(territorie -> !territorie.isDeleted())
+                                   .collect(Collectors.toList());
     }
 
-    @PostMapping("/delete/{id}")
-    public void deleteTerritorie(@PathVariable Integer id) {
-        Territorie territorie = territorieRepository.findById(id);
-        if (territorie != null) {
-            territorie.softDelete();
-            territorieRepository.save(territorie);
-        }
+    // TODO: Ajouter la gestion des erreurs pour les cas où un territoire n'est pas trouvé
+    @GetMapping("/{id}")
+    public Territorie getTerritorieById(@PathVariable Long id) {
+        return territorieRepository.findById(id)
+                                   .orElseThrow(() -> 
+                                       new ResourceNotFoundException("Territorie not found with id " + id));
     }
+    // TODO: Penser à ajouter des tests unitaires supplémentaires pour la validation des JSON
+    // ... autres méthodes ...
 }
