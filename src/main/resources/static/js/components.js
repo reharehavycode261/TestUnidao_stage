@@ -1,17 +1,8 @@
-document.addEventListener("DOMContentLoaded", function() {
-    class UIComponents {
-        static showEmptyState(container, message) {
-            container.innerHTML = `<div class="empty-state">${message}</div>`;
-        }
+// TODO: Ajouter la fonctionnalité de glisser-déposer
 
-        static showLoader(container) {
-            container.innerHTML = '<div class="loader">Loading...</div>';
-        }
-
-        static showError(container, message) {
-            container.innerHTML = `<div class="error-message">${message}</div>`;
-        }
-    }
-
-    window.UIComponents = UIComponents;
+$(function() {
+    $(".sortable").sortable({
+        // TODO: Configurer sortable pour la liste des éléments
+    });
+    $(".sortable").disableSelection();
 });

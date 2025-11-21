@@ -1,0 +1,12 @@
+-Xlint:all
+./test-framework/src/main/java/project/entity/Region.java
+./test-framework/src/main/java/project/entity/Territorie.java
+./test-framework/src/main/java/project/controller/TerritorieRestController.java
+./test-framework/src/main/java/project/controller/RegionRestController.java
+./src/Region.java
+./src/project/Region.java
+./src/project/RegionController.java
+./src/Main.java
+./src/main/java/project/entity/Region.java
+./src/main/java/project/controller/DatabaseController.java
+./src/main/java/project/controller/ValidationController.java
